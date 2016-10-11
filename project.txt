@@ -1,0 +1,55 @@
+occurrent:
+-raspberry X
+-pir sensorX
+-keypad X
+-display lcd X
+-powered speakers | (audio amplifier + unpowered speaker) | alarm siren
+-ups
+-jumper wires
+-box
+
+features:
+-arm/disarm from keypad X
+-4 digits code request when movement detected X
+-alarm sound if code wrong or not inserted X
+-display information on LCD and with speakers X
+-send sms, whatsapp message and email
+
+future occurrent:
+-camera
+-power line X
+-ethernet cable X
+
+future features:
+-take snapshots on alarm sound
+-save logs on database
+-web server
+	web server features:
+	-login
+	-force snapshot
+	-live streaming
+	-see previous snapshot
+	-read from database
+
+technologies:
+-python
+-javascript
+-bootstrap
+-html
+-mySQL
+
+dependencies:
+pyserial
+mpg123
+
+lcd pins:
+d7 p14 - 29(g5)
+d6 p13 - 31(g6)
+d5 p12 - 33(g13)
+d4 p11 - 35(g19)
+e p6 - 37(g26)
+rs p4 - 38(g20)
+p7-8-9-10 - nulla
+p1-3-5-16 gnd
+p2 5v
+p15 5v via 220 ohm
