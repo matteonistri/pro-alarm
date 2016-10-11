@@ -45,3 +45,7 @@ p7-8-9-10 - nulla
 p1-3-5-16 gnd
 p2 5v
 p15 5v via 220 ohm
+
+
+##VERY VERY FUTURE FEATURE
+-integrate server in android app
