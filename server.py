@@ -40,7 +40,6 @@ def login():
 
     return render_template('login.html', error = error)
 
-<<<<<<< 8fc495ce952f37ef3c5c9da6ba75d16d2a543211
 @socketio.on('connection')
 def connection(data):
     print data["data"]
@@ -57,14 +56,8 @@ def status():
             print 'error'
         time.sleep(5)
 
-=======
->>>>>>> add login system
 if __name__ == '__main__':
     db = MySQLdb.connect(host = 'localhost', user = 'root', passwd = 'AngusYoung', db = 'prodb')
     cur = db.cursor()
     app.config['SECRET_KEY'] = 'AngusYoung'
-<<<<<<< 8fc495ce952f37ef3c5c9da6ba75d16d2a543211
     socketio.run(app, host = '0.0.0.0', port=8080)
-=======
-    app.run(host = '0.0.0.0', port=8080)
->>>>>>> add login system
