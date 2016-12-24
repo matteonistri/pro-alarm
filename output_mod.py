@@ -4,6 +4,7 @@ import os
 import os.path
 import time
 import thread
+from datetime import datetime
 import lcd_mod
 import RPi.GPIO as GPIO
 
@@ -18,7 +19,7 @@ lcd_mod.init()
 p = GPIO.PWM(12, 100)
 
 def printLCD(line1, line2):
-    print line1, line2
+    print datetime.now(), "[OUTPUT_MODULE]" line1, line2
     lcd_mod.lcd_string(line1, LCD_LINE_1)
     lcd_mod.lcd_string(line2, LCD_LINE_2)
 

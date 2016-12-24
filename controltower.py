@@ -18,14 +18,14 @@ def controlTower():
     output_mod.printLCD("System ON", str(datetime.now())[:16])
     while True:
         move = input_mod.readPIR()
-        print move
+        print datetime.now(), "[CONTROLTOWER]", move
         if STATUS == "ON":
             if move == 1:
                 alert()
-		
+
         if kp.getKey() != None:
 			requestPasscode(kp.getKey())
-        
+
         time.sleep(0.1)
 
 def requestPasscode(key):
@@ -36,7 +36,7 @@ def requestPasscode(key):
         output_mod.printLCD("Wrong passcode", "")
         time.sleep(2)
         output_mod.printLCD("System " + STATUS, str(datetime.now())[:16])
-        
+
 def onAlarm():
 	output_mod.play("alarm.mp3")
 	slackbot.sendMessage();
