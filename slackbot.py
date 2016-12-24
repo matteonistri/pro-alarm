@@ -11,4 +11,4 @@ def sendMessage():
 	now = datetime.now()
 	response = "alarm activated at " + str(now)
 	slack_client.api_call("chat.postMessage", channel='general', text=response, as_user=True)
-	print "message sent"
+	print now, "[SLACKBOT] message sent"
