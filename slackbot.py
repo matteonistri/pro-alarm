@@ -5,9 +5,9 @@ import time
 from slackclient import SlackClient
 
 BOT_ID = 'U2M5LADFS'
-slack_client = SlackClient('xoxb-89190353536-cjxR3GJaynkzmmZjUghzv2rB')
+slack_client = SlackClient('xoxb-89190353536-c5CRgXqDkQeKLMBtQ9CbeGDF')
 
-def sendMessage():		
+def sendMessage():
 	now = datetime.now()
 	response = "alarm activated at " + str(now)
 	slack_client.api_call("chat.postMessage", channel='general', text=response, as_user=True)
