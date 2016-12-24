@@ -27,7 +27,6 @@
 	-see logs
 	-change pw user
 	-change alarm code
-	-change number of digits (min.4, max.6)
 	-change delay
 	-delete logs
 	-change slackbot parameters

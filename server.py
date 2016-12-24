@@ -1,10 +1,13 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, session, redirect, url_for, escape, request
+from flask_socketio import SocketIO, emit
 from hashlib import md5
 import MySQLdb
+import input_mod, time
 
 app = Flask(__name__, static_url_path = '/static')
+socketio = SocketIO(app)
 
 @app.route('/')
 def index():
@@ -37,8 +40,24 @@ def login():
 
     return render_template('login.html', error = error)
 
+@socketio.on('connection')
+def connection(data):
+    print data["data"]
+
+@socketio.on('getstatus')
+def status():
+    print 'getstatus received'
+    while True:
+        ev = input_mod.readContact()
+        print ev
+        try:
+            emit('status', ev)
+        except:
+            print 'error'
+        time.sleep(5)
+
 if __name__ == '__main__':
     db = MySQLdb.connect(host = 'localhost', user = 'root', passwd = 'AngusYoung', db = 'prodb')
     cur = db.cursor()
     app.config['SECRET_KEY'] = 'AngusYoung'
-    app.run(host = '0.0.0.0', port=8080)
+    socketio.run(app, host = '0.0.0.0', port=8080)
