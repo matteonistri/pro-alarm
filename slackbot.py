@@ -4,8 +4,8 @@ from datetime import datetime
 import time
 from slackclient import SlackClient
 
-BOT_ID = 'U2M5LADFS'
-slack_client = SlackClient('xoxb-89190353536-c5CRgXqDkQeKLMBtQ9CbeGDF')
+BOT_ID = os.getenv('BOT_ID')
+slack_client = SlackClient(os.getenv('SLACK_BOT_TOKEN'))
 
 def sendMessage():
 	now = datetime.now()
