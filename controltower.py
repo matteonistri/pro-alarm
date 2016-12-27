@@ -6,16 +6,14 @@ import time
 from datetime import datetime
 import threading, os, thread
 
-STATUS = "ON"
+STATUS = "OFF"
 PASSCODE = "1245"
 
 
 def controlTower():
     global STATUS
-    #output_mod.play("armed.mp3")
     kp = keypad_mod.keypad()
-    print datetime.now()
-    output_mod.printLCD("System ON", str(datetime.now())[:16])
+    output_mod.printLCD("System OFF", str(datetime.now())[:16])
     while True:
         move = input_mod.readPIR()
         print datetime.now(), "[CONTROLTOWER]", move

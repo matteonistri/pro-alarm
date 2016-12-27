@@ -19,11 +19,12 @@ lcd_mod.init()
 p = GPIO.PWM(12, 100)
 
 def printLCD(line1, line2):
-    print datetime.now(), "[OUTPUT_MODULE]" line1, line2
+    print datetime.now(), "[LCD]", line1, line2
     lcd_mod.lcd_string(line1, LCD_LINE_1)
     lcd_mod.lcd_string(line2, LCD_LINE_2)
 
 def play(path):
+    print datetime.now(), "[MP3] speaker's playing ", os.path.join("res", path)
     abs_path = os.path.abspath(os.path.join("res", path))
     thread.start_new_thread(os.system, ("mpg123 -q " + abs_path, ))
     time.sleep(0.1)
