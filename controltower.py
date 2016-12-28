@@ -8,22 +8,22 @@ import threading, os, thread
 
 STATUS = "OFF"
 PASSCODE = "1245"
-
+DELAY = 10
 
 def controlTower():
     global STATUS
     kp = keypad_mod.keypad()
+
     output_mod.printLCD("System OFF", str(datetime.now())[:16])
+
     while True:
-        move = input_mod.readPIR()
-        print datetime.now(), "[CONTROLTOWER]", move
-        if STATUS == "ON":
-            if move == 1:
-                alert()
-
-        if kp.getKey() != None:
+        if kp.getKey() is not None:
 			requestPasscode(kp.getKey())
-
+        
+        if STATUS == "ON":
+            if input_mod.read433() is not None:
+                alert()
+        
         time.sleep(0.1)
 
 def requestPasscode(key):
@@ -32,18 +32,35 @@ def requestPasscode(key):
 
     if not checkPasscode(code):
         output_mod.printLCD("Wrong passcode", "")
-        time.sleep(2)
+        time.sleep(1)
         output_mod.printLCD("System " + STATUS, str(datetime.now())[:16])
 
-def onAlarm():
-	output_mod.play("alarm.mp3")
-	slackbot.sendMessage();
+def checkPasscode(code):
+    global STATUS
+    global PASSCODE
+
+    if code == PASSCODE:
+        if STATUS == "ON":
+            STATUS = "OFF"
+            output_mod.printLCD("System OFF", str(datetime.now())[:16])
+            output_mod.playBuzzer(0)
+            os.system("pkill mpg123")
+
+        else:
+            STATUS = "ON"
+            thread.start_new_thread(output_mod.playBuzzer, (DELAY,))
+            for i in range(DELAY, 0, -1):
+                output_mod.printLCD("Turning on...", "%d seconds" % i)
+                time.sleep(1)
+            output_mod.printLCD("System ON", str(datetime.now())[:16])
+
+        return True
+    return False
 
 def alert():
-    timer = threading.Timer(10.0, onAlarm)
+    timer = threading.Timer(DELAY, onAlarm)
     timer.start()
-    #output_mod.play("movement.mp3")
-    thread.start_new_thread(output_mod.playBuzzer, (10,))
+    thread.start_new_thread(output_mod.playBuzzer, (DELAY,))
 
     while True:
         output_mod.printLCD("Enter your", "passcode:")
@@ -52,27 +69,9 @@ def alert():
             timer.cancel()
             break
 
-def checkPasscode(code):
-    global STATUS
-
-    if code == PASSCODE:
-        if STATUS == "ON":
-            STATUS = "OFF"
-            output_mod.printLCD("System OFF", str(datetime.now())[:16])
-            output_mod.playBuzzer(0)
-            os.system("pkill mpg123")
-            #output_mod.play("disarmed.mp3")
-
-        else:
-            STATUS = "ON"
-            output_mod.printLCD("Turning on...", "10 seconds")
-            output_mod.playBuzzer(10)
-            output_mod.printLCD("System ON", str(datetime.now())[:16])
-            time.sleep(10)
-            #output_mod.play("armed.mp3")
-
-        return True
-    return False
+def onAlarm():
+	output_mod.play("alarm.mp3")
+	slackbot.sendMessage();
 
 if __name__ == "__main__":
     controlTower()
