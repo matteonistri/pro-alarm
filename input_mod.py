@@ -7,6 +7,9 @@ import serial
 from datetime import datetime
 
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=0.1)
+signals = {"15790655": "door",
+		   "177215": "window", 
+		   "5243455": "gateway"}
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -21,8 +24,9 @@ def read433():
 	line = ser.readline()
 	if not line == "":
 		words = line.split(" ")
-		print datetime.now(), "[433RECEIVER] received ", words[1]
-		return words[1]
+		if words[1] in signals:
+			print datetime.now(), "[433RECEIVER] received ", words[1], signals[words[1]], "opened" 
+			return words[1]
 	return None
     
 def getKeys(kn, prev):
